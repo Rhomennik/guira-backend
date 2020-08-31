@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 5433,
   "username": "postgres",
-  "password": "20715060r",
+  "password": "123456",
   "database": "guira",
   "entities": ["./src/models/*.ts"],
   "migrations": ["./src/database/migrations/*.ts"],
