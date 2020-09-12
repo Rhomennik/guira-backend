@@ -45,7 +45,7 @@ class Task {
   done: string;
 
   @UpdateDateColumn()
-  deleted: Date;
+  deleted: string;
 
   @CreateDateColumn()
   accessed: Date;

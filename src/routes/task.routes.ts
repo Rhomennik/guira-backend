@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import TaskRepository from "../repositories/TaskRepository";
 import CreateTaskService from "../services/CreateTaskService";
+import UpdateTaskService from "../services/UpdateTaskService";
 
 import { getCustomRepository } from "typeorm";
 
@@ -62,11 +63,16 @@ taskRouter.post("/", async (request, response) => {
 });
 
 taskRouter.patch("/", async (request, response) => {
-  const { type, deleted } = request.body;
+  const updateTaskService = new UpdateTaskService();
+  const { type, deleted, id_task } = request.body;
 
-  console.log(type, deleted);
+  const updatedTask = await updateTaskService.execute({
+    type,
+    deleted,
+    id_task,
+  });
 
-  return response.json({ ok: true });
+  return response.json({ ok: true, response: updatedTask });
 });
 
 export default taskRouter;
