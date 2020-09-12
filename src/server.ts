@@ -22,14 +22,12 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
       .json({ status: "error", message: err.message });
   }
 
-  console.error(err);
-
   return response.status(500).json({
     status: "error",
     message: "Internal server error",
   });
 });
 
-app.listen(3333, () => {
+app.listen(3333, "0.0.0.0", () => {
   console.log("🐦 Server starter on port 3333!");
 });

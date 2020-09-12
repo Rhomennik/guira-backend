@@ -24,6 +24,9 @@ class User {
   permission_level: number;
 
   @Column()
+  push_token: string;
+
+  @Column()
   avatar: string;
 
   @CreateDateColumn()

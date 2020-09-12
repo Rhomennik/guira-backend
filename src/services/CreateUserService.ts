@@ -9,6 +9,7 @@ interface Request {
   email: string;
   password: string;
   permission_level: number;
+  push_token: string;
 }
 
 class CreateUserService {
@@ -17,6 +18,7 @@ class CreateUserService {
     email,
     password,
     permission_level,
+    push_token,
   }: Request): Promise<User> {
     const usersRepository = getRepository(User);
 
@@ -35,6 +37,7 @@ class CreateUserService {
       email,
       password: hashedPassword,
       permission_level,
+      push_token,
     });
 
     await usersRepository.save(user);

@@ -4,6 +4,7 @@ import uploadConfig from "../config/upload";
 
 import CreateUserService from "../services/CreateUserService";
 import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
+import UpdatePushTokenService from "../services/UpdatePushTokenService";
 
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
 
@@ -12,7 +13,13 @@ const upload = multer(uploadConfig);
 
 usersRouter.post("/", async (request, response) => {
   try {
-    const { name, email, password, permission_level } = request.body;
+    const {
+      name,
+      email,
+      password,
+      permission_level,
+      push_token,
+    } = request.body;
 
     const createUser = new CreateUserService();
 
@@ -21,6 +28,7 @@ usersRouter.post("/", async (request, response) => {
       email,
       password,
       permission_level,
+      push_token,
     });
 
     delete user.password;
@@ -37,10 +45,26 @@ usersRouter.patch(
   upload.single("avatar"),
   async (request, response) => {
     const updateUserAvatar = new UpdateUserAvatarService();
-
     const user = await updateUserAvatar.execute({
       user_id: request.user.id,
       avatarFilename: request.file.filename,
+    });
+
+    delete user.password;
+
+    return response.json(user);
+  }
+);
+
+usersRouter.patch(
+  "/push-token",
+  ensureAuthenticated,
+  async (request, response) => {
+    const updatePushToken = new UpdatePushTokenService();
+
+    const user = await updatePushToken.execute({
+      user_id: request.user.id,
+      push_token: request.body.push_token,
     });
 
     delete user.password;
